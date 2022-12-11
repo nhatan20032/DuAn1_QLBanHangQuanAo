@@ -13,5 +13,7 @@ namespace _2.BUS.IServices
         bool Update(ChatLieu chatLieu);
         bool Delete(ChatLieu chatLieu);
         List<ChatLieu> getChatLieuFromDB();
+        
+
     }
 }

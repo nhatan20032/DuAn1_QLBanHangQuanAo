@@ -21,8 +21,6 @@ namespace _1.DAL.Configurations
             builder.Property(x => x.TenDem).IsRequired().HasMaxLength(100);
             builder.Property(x => x.Ten).IsRequired().HasMaxLength(200);
             builder.Property(x => x.GioiTinh);
-            builder.Property(x => x.Email);
-            builder.Property(x => x.AnhNV);
             builder.Property(x => x.NgaySinh);
             builder.Property(x => x.CMND).IsRequired();
             builder.Property(x => x.SDT).IsRequired();

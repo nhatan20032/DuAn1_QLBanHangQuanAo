@@ -14,7 +14,7 @@ namespace _1.DAL.Configurations
         public void Configure(EntityTypeBuilder<HoaDonChiTiet> builder)
         {
             builder.ToTable("HoaDonChiTiet");
-            builder.HasKey(x => x.ID);
+            builder.HasKey(x => new{x.IDHD,x.IDChiTietSP});
             //builder.HasKey(x => new { x.IDHD, x.IDChiTietSP });
             builder.Property(x => x.SoLuong).IsRequired().HasDefaultValue(0);
             builder.Property(x => x.DonGia).IsRequired();

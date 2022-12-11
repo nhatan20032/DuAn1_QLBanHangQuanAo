@@ -1,82 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="Custom\AnButtons.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="View\FrmBanHang.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="View\FrmChatLieu.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="View\FrmChucVu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmCuaHang.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmCV_NV.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmDangNhap.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmDoiEmail.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmDoiMK.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmDongSP.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmHinhThucThanhToan.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmHoaDon.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmKhachHang.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmMauSac.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmNhanVien.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmQuanLy.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmQuanLySanPham.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmQuenMatKhau.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmSanPham.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="View\FrmSize.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmThongKe.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmThongTinHD.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmThongTinNhanVien.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmThuongHieu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="View\FrmTimKiem.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

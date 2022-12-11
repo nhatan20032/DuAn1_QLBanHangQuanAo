@@ -41,7 +41,7 @@ namespace _1.DAL.ConText
         }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
         {
-            dbContextOptionsBuilder.UseSqlServer(@"Data Source=LAPTOP-09H6E8AK\SQLEXPRESS;Initial Catalog=databasecuoicung;Persist Security Info=True; User ID =huyentnph22300; Password =123456");
+            dbContextOptionsBuilder.UseSqlServer(@"Data Source=LUONGHOANGNAM\SQLEXPRESS01;Initial Catalog=databaseDA001;Persist Security Info=True; User ID =Namlh19; Password =123456");
         }
         public virtual DbSet<ChatLieu> ChatLieus { get; set; }
         public virtual DbSet<ChucVu> ChucVus { get; set; }

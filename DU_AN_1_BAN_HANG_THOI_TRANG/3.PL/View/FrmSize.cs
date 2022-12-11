@@ -1,8 +1,6 @@
-﻿using _1.DAL.ConText;
-using _1.DAL.DomainModels;
+﻿using _1.DAL.DomainModels;
 using _2.BUS.IServices;
 using _2.BUS.Services;
-using _3.PL.Utilitis;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,12 +17,12 @@ namespace _3.PL.View
     {
         public ISizeServices _sizeServices;
         public Sizez _sz;
-        private DUAN1DBContext db_context = new DUAN1DBContext();
         public FrmSize()
         {
             InitializeComponent();
             _sizeServices = new SizeServices();
             loadData();
+           
         }
         public void loadData()
         {
@@ -36,7 +34,7 @@ namespace _3.PL.View
             dtgv_size.Columns[3].Name = "Mô tả";
             dtgv_size.Columns[4].Name = "Trạng thái";
             dtgv_size.Rows.Clear();
-            var lstSizez = _sizeServices.getSizesFromDB();
+            var lstSizez = _sizeServices.getSizesFromDB() ;
             if (txt_timkiem.Text != "")
             {
                 lstSizez = lstSizez.Where(c => c.Ma.ToLower().Contains(txt_timkiem.Text.ToLower()) || c.Ten.ToLower().Contains(txt_timkiem.Text.ToLower())).ToList();
@@ -57,92 +55,45 @@ namespace _3.PL.View
             rbtn_consize.Checked = false;
             rbtn_hetsize.Checked = true;
         }
-        public bool checknhap()
+
+        private void label1_Click(object sender, EventArgs e)
         {
-            if (txt_ma.Text == "" || txt_ten.Text == "") return false;
-            return true;
+
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void btn_them_Click(object sender, EventArgs e)
         {
-            var p = _sizeServices.getSizesFromDB().FirstOrDefault(x => x.Ma == txt_ma.Text);
-            if (checknhap() == false)
+            DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn thêm size này không?", "Thông báo", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                MessageBox.Show("Không được để trống các trường", "Chú ý");
-            }
-            else if (p != null)
-            {
-                MessageBox.Show("Mã Size đã tồn tại", "Chú ý");
-            }
-            else
-            {
-                OpenFileDialog op = new OpenFileDialog();
-                DialogResult dialog = MessageBox.Show("Bạn có muốn thêm Size không?", "Thêm", MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes)
+                if (txt_ma.Text == "")
+                {
+                    MessageBox.Show("Vui lòng nhập mã size");
+                }
+                else if (_sizeServices.getSizesFromDB().Any(c => c.Ma == txt_ma.Text))
+                {
+                    MessageBox.Show("Mã size này đã tồn tại");
+                }
+                else
                 {
                     var sz = new Sizez()
                     {
                         ID = new Guid(),
                         Ma = txt_ma.Text,
-                        Ten = txt_ten.Text,
+                        Ten = txt_ma.Text,
                         MoTa = txt_mota.Text,
-                        TrangThai = rbtn_consize.Checked ? 1 : 0
+                        TrangThai = rbtn_consize.Checked ? 1:0
+
                     };
                     _sizeServices.Add(sz);
-                    MessageBox.Show("Thêm thành công");
+                    MessageBox.Show("Thêm size thành công");
                     resetForm();
-
-                }
-            }
-        }
-
-        private void btn_sua_Click(object sender, EventArgs e)
-        {
-            if (_sz == null)
-            {
-                MessageBox.Show("Không tìm thấy mã Size", "Cảnh báo");
-            }
-            else if (checknhap() == false)
-            {
-                MessageBox.Show("Không được để trống các trường", "Chú ý");
-            }
-            else
-            {
-                OpenFileDialog op = new OpenFileDialog();
-                DialogResult dialog = MessageBox.Show("Bạn có muốn Sửa Size không?", "Sửa", MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes)
-                {
-                    if (_sz.Ma == txt_ma.Text || (_sz.Ma != txt_ma.Text && _sizeServices.getSizesFromDB().FirstOrDefault(c => c.Ma == txt_ma.Text) == null))
-                    {
-                        _sz.Ma = txt_ma.Text;
-                        _sz.Ten = txt_ten.Text;
-                        _sz.MoTa = txt_mota.Text;
-                        _sz.TrangThai = rbtn_consize.Checked ? 1 : 0;
-                        _sizeServices.Update(_sz);
-                        MessageBox.Show("Sửa thành công");
-                        resetForm();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Sửa không thành công");
-                    }
-                }
-           
-        }
-        }
-        private void btn_xoa_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn xóa size này không?", "Thông báo", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                if (_sz == null)
-                {
-                    MessageBox.Show("Vui lòng chọn size");
-                }
-                else
-                {
-                    _sizeServices.Delete(_sz);
-                    MessageBox.Show("Xóa size thành công");
-                    resetForm();
+                    
                 }
             }
             if (dialogResult == DialogResult.No)
@@ -151,14 +102,45 @@ namespace _3.PL.View
             }
         }
 
-        private void btn_reset_Click(object sender, EventArgs e)
+        private void btn_sua_Click(object sender, EventArgs e)
         {
-            resetForm();
+            DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn sửa size này không?", "Thông báo", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (txt_ma.Text == "")
+                {
+                    MessageBox.Show("Vui lòng nhập mã");
+                }
+                else if (_sz == null)
+                {
+                    MessageBox.Show("Vui lòng chọn size");
+                }
+                else
+                {
+                    if (_sz.Ma == txt_ma.Text || (_sz.Ma != txt_ma.Text && _sizeServices.getSizesFromDB().FirstOrDefault(c => c.Ma == txt_ma.Text) == null))
+                    {
+                        _sz.Ma = txt_ma.Text;
+                        _sz.Ten = txt_ten.Text;
+                        _sz.MoTa = txt_mota.Text;
+                        _sz.TrangThai = rbtn_consize.Checked ? 1 : 0;
+                        _sizeServices.Update(_sz);
+                        MessageBox.Show("Sửa size thành công");
+                        resetForm();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Mã size đã tồn tại");
+                    }
+                }
+            }
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
         }
 
         private void dtgv_size_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow r = dtgv_size.Rows[e.RowIndex];
@@ -176,52 +158,42 @@ namespace _3.PL.View
 
             }
         }
+
+        private void btn_xoa_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn xóa size này không?", "Thông báo", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (_sz == null)
+                {
+                    MessageBox.Show("Vui lòng chọn size");
+                }
+                else
+                {
+                   _sizeServices.Delete(_sz);
+                    MessageBox.Show("Xóa size thành công");
+                    resetForm();
+                }
+            }
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+        }
+
         private void txt_timkiem_TextChanged(object sender, EventArgs e)
         {
             loadData();
         }
 
-        private void dtgv_size_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+        private void FrmSize_Load(object sender, EventArgs e)
         {
-            //Guid ID = Guid.Parse(dtgv_size.Rows[e.RowIndex].Cells["ID"].Value.ToString());
-            //string Ma = dtgv_size.Rows[e.RowIndex].Cells["MaNV"].Value.ToString();
-            //string Ten = dtgv_size.Rows[e.RowIndex].Cells["Ten"].Value.ToString();
-            //string MoTa = dtgv_size.Rows[e.RowIndex].Cells["MoTa"].Value.ToString();
-            //int TrangThai = Convert.ToInt32(dtgv_size.Rows[e.RowIndex].Cells["MoTa"].Value);
-            //var a = db_context.Sizes.SingleOrDefault(p=>p.ID == ID);
-            //if (a != null)
-            //{
-            //    a.Ma = Ma;
-            //    a.Ten = Ten;
-            //    a.MoTa = MoTa;
-            //    a.TrangThai = TrangThai;
-            //}
-            //else
-            //{
-            //    Sizez size = new Sizez();
-            //    size.ID = ID;
-            //    size.Ma = Ma;
-            //    size.Ten = Ten;
-            //    size.MoTa = MoTa;
-            //    size.TrangThai = TrangThai;
-            //    db_context.Sizes.Add(size);
-            //}
-            //db_context.SaveChanges();
+
         }
 
-        private void dtgv_size_UserAddedRow(object sender, DataGridViewRowEventArgs e)
+        private void btn_reset_Click(object sender, EventArgs e)
         {
-            //dtgv_size.Rows[e.Row.Index - 1].Cells["ID"].Value = new Guid();
-        }
-
-        private void txt_ten_TextChanged(object sender, EventArgs e)
-        {
-            txt_ma.Text ="Size"+ Utilities.GetMaTuSinh(txt_ten.Text) + (_sizeServices.getSizesFromDB().Count+1);
-        }
-
-        private void txt_ten_Leave(object sender, EventArgs e)
-        {
-            txt_ten.Text = Utilities.VietHoaChuCaiDau(txt_ten.Text);
+            resetForm();
         }
     }
 }

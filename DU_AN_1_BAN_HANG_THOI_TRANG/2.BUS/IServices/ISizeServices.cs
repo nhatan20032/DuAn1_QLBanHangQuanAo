@@ -13,5 +13,8 @@ namespace _2.BUS.IServices
         bool Update(Sizez sizez);
         bool Delete(Sizez sizez);
         List<Sizez> getSizesFromDB();
+        
+        
+
     }
 }

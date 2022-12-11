@@ -1,6 +1,4 @@
-﻿using _1.DAL.DomainModels;
-using _2.BUS.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +8,5 @@ namespace _2.BUS.IServices
 {
     public interface INhanVienServices
     {
-        bool addSanPhamChiTiet(ViewNhanVien nhanVien);
-        bool updateSanPhamChiTiet(ViewNhanVien nhanVien);
-        bool updateSanPhamChiTiets(NhanVien nhanVien);
-        bool deleteSanPhamChiTiet(Guid idnv);
-        List<NhanVien> GetNhanViens();
-        List<ViewNhanVien> GetViewChiTietSps();
     }
 }

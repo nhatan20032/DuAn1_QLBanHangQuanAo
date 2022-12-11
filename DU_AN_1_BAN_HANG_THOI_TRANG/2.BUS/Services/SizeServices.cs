@@ -22,7 +22,7 @@ namespace _2.BUS.Services
 
         public bool Add(Sizez sizez)
         {
-            _ISizeReps.Add(sizez);
+           _ISizeReps.Add(sizez);
             return true;
         }
 

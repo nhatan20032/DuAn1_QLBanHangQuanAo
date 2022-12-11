@@ -9,18 +9,15 @@ namespace _1.DAL.DomainModels
     public class ChiTietSP
     {
         public Guid ID { get; set; }
-        public string Ma { get; set; }
         public Guid? IDSP { get; set; }
         public Guid? IDDongSP { get; set; }
         public Guid? IDMauSac { get; set; }
         public Guid? IDThuongHieu { get; set; }
         public Guid? IDSize { get; set; }
-        public Guid? IDChatLieu { get; set; }
-        public int? SoLuongTon { get; set; }
+        public int SoLuongTon { get; set; }
         public decimal GiaNhap { get; set; }
         public decimal GiaBan { get; set; }
-        public string? MoTa { get; set; }
-        public string? AnhMoTa { get; set; }
+        public string MoTa { get; set; }
         public int? TrangThai { get; set; }
         public SanPham SanPham { get; set; }
         public DongSP DongSP { get; set; }

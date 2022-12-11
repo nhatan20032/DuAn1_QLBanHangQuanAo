@@ -17,10 +17,8 @@ namespace _1.DAL.DomainModels
         public string GioiTinh { get; set; }
         public DateTime NgaySinh { get; set; }
         public string CMND { get; set; }
-        public string? AnhNV { get; set; }
         public string SDT { get; set; }
         public string MatKhau { get; set; }
-        public string Email { get; set; }
         public Guid? IDCH { get; set; }
         public Guid? IDCV { get; set; }
         //public Guid IDGBC { get; set; }

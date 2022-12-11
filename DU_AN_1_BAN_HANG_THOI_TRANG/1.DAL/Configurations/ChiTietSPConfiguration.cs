@@ -18,10 +18,8 @@ namespace _1.DAL.Configurations
             builder.Property(x => x.SoLuongTon).IsRequired().HasDefaultValue(0);
             builder.Property(x => x.GiaBan).IsRequired();
             builder.Property(x => x.GiaNhap).IsRequired();
-            builder.Property(x => x.MoTa);
-            builder.Property(x => x.Ma);
-            builder.Property(x => x.AnhMoTa);
-            builder.Property(x => x.TrangThai);
+            builder.Property(x => x.MoTa).IsRequired();
+            builder.Property(x => x.TrangThai).IsRequired();
             builder.HasOne(t => t.ThuongHieu).WithMany(p => p.chiTietSPs).HasForeignKey(p => p.IDThuongHieu);
             builder.HasOne(t => t.DongSP).WithMany(p => p.chiTietSPs).HasForeignKey(p => p.IDDongSP);
             builder.HasOne(t => t.MauSac).WithMany(p => p.chiTietSPs).HasForeignKey(p => p.IDMauSac);

@@ -22,7 +22,6 @@ namespace _1.DAL.Configurations
             builder.Property(x => x.Ten).IsRequired().HasMaxLength(100);
             builder.Property(x => x.GioiTinh);
             builder.Property(x => x.NgaySinh);
-            builder.Property(x => x.Poin);
             builder.Property(x => x.CMND).IsRequired();
             builder.Property(x => x.SDT).IsRequired();
             builder.Property(x => x.DiaChi).IsRequired().HasMaxLength(200);

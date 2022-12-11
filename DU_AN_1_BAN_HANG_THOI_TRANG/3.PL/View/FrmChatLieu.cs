@@ -1,7 +1,6 @@
 ﻿using _1.DAL.DomainModels;
 using _2.BUS.IServices;
 using _2.BUS.Services;
-using _3.PL.Utilitis;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,13 +17,19 @@ namespace _3.PL.View
     {
         public IChatLieuServices _chatLieuServices;
         public ChatLieu _cl;
+        //public List<ChatLieu> _lstChatLieu;
+
+
         public FrmChatLieu()
         {
+
             InitializeComponent();
             _chatLieuServices = new ChatLieuServices();
+            //_lstChatLieu = new List<ChatLieu>();
             loadData();
-            rbtn_conhang.Checked = true;
+            
         }
+      
         public void loadData()
         {
             dtgv_chatlieu.ColumnCount = 5;
@@ -44,9 +49,33 @@ namespace _3.PL.View
 
             foreach (var x in lstChatLieu)
             {
-                dtgv_chatlieu.Rows.Add(x.ID, x.Ma, x.Ten, x.MoTa, x.TrangThai == 1 ? "Còn hàng" : "Hết hàng");
+                dtgv_chatlieu.Rows.Add(x.ID, x.Ma, x.Ten, x.MoTa, x.TrangThai ==1? "Còn hàng":"Hết hàng");
             }
         }
+        
+
+
+
+        private void ChatLieu_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
         public void resetForm()
         {
             loadData();
@@ -57,27 +86,21 @@ namespace _3.PL.View
             rbtn_conhang.Checked = false;
             rbtn_hethang.Checked = true;
         }
-        public bool checknhap()
-        {
-            if (txt_ma.Text == "" || txt_ten.Text == "" ) return false;
-            return true;
-        }
+       
         private void btn_them_Click(object sender, EventArgs e)
         {
-            var p = _chatLieuServices.getChatLieuFromDB().FirstOrDefault(x => x.Ma == txt_ma.Text);
-            if (checknhap() == false)
+            DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn thêm chất liệu này không?", "Thông báo", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                MessageBox.Show("Không được để trống các trường", "Chú ý");
-            }
-            else if (p != null)
-            {
-                MessageBox.Show("Mã Chất liệu đã tồn tại", "Chú ý");
-            }
-            else
-            {
-                OpenFileDialog op = new OpenFileDialog();
-                DialogResult dialog = MessageBox.Show("Bạn có muốn thêm chất liệu không?", "Thêm", MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes)
+                if (txt_ma.Text == "")
+                {
+                    MessageBox.Show("Vui lòng nhập mã chất liệu");
+                }
+                else if(_chatLieuServices.getChatLieuFromDB().Any(c=>c.Ma == txt_ma.Text))
+                {
+                    MessageBox.Show("Mã chất liệu này đã tồn tại");
+                }
+                else
                 {
                     var cl = new ChatLieu()
                     {
@@ -88,33 +111,63 @@ namespace _3.PL.View
                         TrangThai = rbtn_conhang.Checked ? 1 : 0
 
                     };
+
                     _chatLieuServices.Add(cl);
                     MessageBox.Show("Thêm thành công");
+                    
                     resetForm();
                 }
+            }
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
+        }
+
+        private void btn_reset_Click(object sender, EventArgs e)
+        {
+            resetForm();
+        }
+
+        private void dtgv_chatlieu_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow r = dtgv_chatlieu.Rows[e.RowIndex];
+                _cl = _chatLieuServices.getChatLieuFromDB().FirstOrDefault(c => c.ID == Guid.Parse(r.Cells[0].Value.ToString()));
+                txt_ma.Text = r.Cells[1].Value.ToString();
+                txt_ten.Text = r.Cells[2].Value.ToString();
+                txt_mota.Text = r.Cells[3].Value.ToString();
+                if (_cl.TrangThai==1)
+                {
+                    rbtn_conhang.Checked = true;
+                    return;
+                }
+                rbtn_hethang.Checked = true;
+               
+               
             }
         }
 
         private void btn_sua_Click(object sender, EventArgs e)
         {
-            if (_cl == null)
+            DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn sửa chất liệu này không?", "Thông báo", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                MessageBox.Show("Không tìm thấy mã Chất liệu", "Cảnh báo");
-            }
-            else if (checknhap() == false)
-            {
-                MessageBox.Show("Không được để trống các trường", "Chú ý");
-            }
-            else
-            {
-                OpenFileDialog op = new OpenFileDialog();
-                DialogResult dialog = MessageBox.Show("Bạn có muốn Sửa Chất liệu không?", "Sửa", MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes)
+                if (txt_ma.Text == "")
                 {
-                    if (_cl.Ma == txt_ma.Text || (_cl.Ma != txt_ma.Text && _chatLieuServices.getChatLieuFromDB().FirstOrDefault(c => c.Ma == txt_ma.Text) == null))
+                    MessageBox.Show("Vui lòng nhập mã");
+                }
+                else if(_cl == null)
+                {
+                    MessageBox.Show("Vui lòng chọn chất liệu");
+                }
+                else
+                {
+                    if(_cl.Ma == txt_ma.Text || (_cl.Ma != txt_ma.Text && _chatLieuServices.getChatLieuFromDB().FirstOrDefault(c=>c.Ma == txt_ma.Text) == null))
                     {
                         _cl.Ma = txt_ma.Text;
-                        _cl.Ten = txt_ten.Text;
+                        _cl.Ten=txt_ten.Text;
                         _cl.MoTa = txt_mota.Text;
                         _cl.TrangThai = rbtn_conhang.Checked ? 1 : 0;
                         _chatLieuServices.Update(_cl);
@@ -127,6 +180,10 @@ namespace _3.PL.View
                     }
                 }
             }
+            if (dialogResult == DialogResult.No)
+            {
+                return;
+            }
         }
 
         private void btn_xoa_Click(object sender, EventArgs e)
@@ -134,7 +191,7 @@ namespace _3.PL.View
             DialogResult dialogResult = MessageBox.Show("Bạn có chắc chắn muốn xóa chất liệu này không?", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                if (_cl == null)
+                if (_cl==null)
                 {
                     MessageBox.Show("Vui lòng chọn chất liệu");
                 }
@@ -149,12 +206,6 @@ namespace _3.PL.View
             {
                 return;
             }
-
-        }
-
-        private void btn_reset_Click(object sender, EventArgs e)
-        {
-            resetForm();
         }
 
         private void txt_timkiem_TextChanged(object sender, EventArgs e)
@@ -162,37 +213,10 @@ namespace _3.PL.View
             loadData();
         }
 
-        private void dtgv_chatlieu_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                DataGridViewRow r = dtgv_chatlieu.Rows[e.RowIndex];
-                _cl = _chatLieuServices.getChatLieuFromDB().FirstOrDefault(c => c.ID == Guid.Parse(r.Cells[0].Value.ToString()));
-                txt_ma.Text = r.Cells[1].Value.ToString();
-                txt_ten.Text = r.Cells[2].Value.ToString();
-                txt_mota.Text = r.Cells[3].Value.ToString();
-                if (_cl.TrangThai == 1)
-                {
-                    rbtn_conhang.Checked = true;
-                    return;
-                }
-                rbtn_hethang.Checked = true;
-            }
-        }
-
-        private void txt_ten_TextChanged(object sender, EventArgs e)
-        {
-            txt_ma.Text = "CL" + Utilities.GetChuCaiDau(txt_ten.Text) + (_chatLieuServices.getChatLieuFromDB().Count + 1);
-        }
-
-        private void txt_ten_Leave(object sender, EventArgs e)
-        {
-            txt_ten.Text = Utilities.VietHoaChuCaiDau(txt_ten.Text);
-        }
-
-        private void txt_mota_Leave(object sender, EventArgs e)
-        {
-            txt_mota.Text = Utilities.VietHoaChuCaiDau(txt_mota.Text);
-        }
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    loadData();
+        //}
     }
 }
+
